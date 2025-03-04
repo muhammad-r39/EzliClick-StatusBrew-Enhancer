@@ -69,17 +69,19 @@
 
     function revealFullTimestamps() {
         const chatTimes = document.querySelectorAll(
-            'span.mat-body-small.sb-text-secondary.sbui-tooltip-host-tp-position-top.sbui-tooltip-host'
+            'span.mat-body-small.sb-text-secondary.sbui-tooltip-host-tp-position-top.sbui-tooltip-host:not([data-fulltimestamp])'
         );
-
+    
         chatTimes.forEach((chatTime) => {
             chatTime.dispatchEvent(new Event('mouseenter', { bubbles: true }));
-
+    
             setTimeout(() => {
                 const tooltip = document.querySelector('.tippy-content');
                 if (tooltip) {
                     const fullTimestamp = tooltip.innerText.trim();
                     if (fullTimestamp) {
+                        // Store the full timestamp as an attribute
+                        chatTime.setAttribute('data-fulltimestamp', fullTimestamp);
                         chatTime.textContent = fullTimestamp;
                     }
                 }
@@ -87,6 +89,7 @@
             }, 300);
         });
     }
+    
 
     function addButton() {
         if (document.querySelector('.ezliclick-button')) return;
